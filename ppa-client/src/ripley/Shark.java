@@ -1,4 +1,4 @@
-package api.jaws;
+package ripley;
 
 /*
  * Uh-oh. You've decompiled this class file, and in doing so you are in

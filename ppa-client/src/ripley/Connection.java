@@ -1,4 +1,4 @@
-package api.jaws;
+package ripley;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

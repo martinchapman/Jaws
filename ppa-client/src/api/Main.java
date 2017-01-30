@@ -1,12 +1,12 @@
 package api;
 
-import api.jaws.Jaws;
+import ripley.Ripley;
 
 public class Main {
 
 	public Main() {
 		
-		Jaws jaws = new Jaws( "<PrivateKey>", "<PublicKey>", true );
+		Ripley jaws = new Ripley( "<PrivateKey>", "<PublicKey>", true );
 
 	}
 	

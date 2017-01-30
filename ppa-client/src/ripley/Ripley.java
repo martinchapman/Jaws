@@ -1,4 +1,4 @@
-package api.jaws;
+package ripley;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +26,7 @@ import org.json.JSONObject;
  * @author Martin
  *
  */
-public class Jaws {
+public class Ripley {
 
 	private Connection connection;
 	
@@ -40,7 +40,7 @@ public class Jaws {
 	 * @param publicKey Pre-validated public key
 	 * @param useSSL Whether to issue commands using a secure connection
 	 */
-	public Jaws( String privateKey, String publicKey, boolean useSSL ) {
+	public Ripley( String privateKey, String publicKey, boolean useSSL ) {
 		
 		connection = new Connection( privateKey, publicKey, useSSL );
 		
@@ -54,7 +54,7 @@ public class Jaws {
 	 * @param privateKey
 	 * @param publicKey
 	 */
-	public Jaws( String privateKey, String publicKey ) {
+	public Ripley( String privateKey, String publicKey ) {
 		
 		connection = new Connection( privateKey, publicKey, true );
 		
