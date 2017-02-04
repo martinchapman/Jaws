@@ -20,12 +20,8 @@ import javax.net.ssl.X509TrustManager;
 import org.json.JSONArray;
 
 /*
- * Uh-oh. You've decompiled this class file, and in doing so you are in
- * breach of exam regulations, and risk forfeiting your grade
- * for the major coursework assignment.
- * 
- * Only joking. I've commented (some of) the source, so while 
- * you're here hopefully you can learn something :-)
+ * @author Martin
+ *
  */
 public final class Connection {
 
@@ -55,11 +51,11 @@ public final class Connection {
 			
 			if ( useSSL ) {
 				
-				url = new URL("https://martinchapman.ddns.net/jaws/index.php" + query);
+				url = new URL("http://127.0.0.1:8080" + query);
 			
 			} else {
 				
-				url = new URL("http://martinchapman.ddns.net/jaws/index.php" + query);
+				url = new URL("http://127.0.0.1:8080" + query);
 			
 			}
 			

@@ -6,7 +6,9 @@ public class Main {
 
 	public Main() {
 		
-		Ripley jaws = new Ripley( "<PrivateKey>", "<PublicKey>", true );
+		Ripley ripley = new Ripley( "abc", "abc" );
+		
+		ripley.getAllIncidents();
 
 	}
 	

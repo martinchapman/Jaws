@@ -67,16 +67,17 @@ public class Ripley {
 	 * 
 	 */
 	
-	/**
-	 * Returns the list of shark names currently in the dataset.
-	 *  
-	 * @return A list of shark names
-	 */
-	public ArrayList<String> getSharkNames() {
+	public ArrayList<String> getAllIncidents() {
 		
 		try {
 			
-			return Utils.keyPairResultToList( connection.sendRESTfulQuery("/names") );
+			for ( JSONObject data : Utils.arrayToObjectList( connection.sendRESTfulQuery("/all") ) ) {
+				
+				System.out.println(data);
+			
+			}
+			
+			return Utils.keyPairResultToList( connection.sendRESTfulQuery("/all") );
 			
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 			
