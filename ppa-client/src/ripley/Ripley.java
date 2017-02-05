@@ -31,7 +31,7 @@ public class Ripley {
 			
 			for ( JSONObject data : Utils.arrayToObjectList( connection.sendRESTfulQuery("/all") ) ) {
 				
-				incidents.add(new Incident());
+				incidents.add(new Incident(data.toString()));
 			
 			}
 			

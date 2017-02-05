@@ -19,12 +19,11 @@ import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONArray;
 
-/*
- * @author Martin
- *
- */
-public final class Connection {
 
+public final class Connection {
+	
+	private static final String URL = "localhost:8080";
+	
 	private String privateKey;
 	
 	private String publicKey;
@@ -51,11 +50,11 @@ public final class Connection {
 			
 			if ( useSSL ) {
 				
-				url = new URL("http://127.0.0.1:8080" + query);
+				url = new URL("https://" + URL + query);
 			
 			} else {
 				
-				url = new URL("http://127.0.0.1:8080" + query);
+				url = new URL("http://" + URL + query);
 			
 			}
 			
@@ -129,6 +128,8 @@ public final class Connection {
 	        	System.err.println("API Response Error Code: " + ((HttpURLConnection) con).getResponseCode());
 	        
 	        }
+	        
+	        //System.out.println(Utils.convertStreamToString(con.getInputStream()));
 	        
 		    return Utils.processJSONInputStream( con.getInputStream() );
 		    
