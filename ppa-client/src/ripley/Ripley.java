@@ -25,15 +25,11 @@ public class Ripley {
 			
 			for ( JSONObject data : Utils.arrayToObjectList( connection.sendRESTfulQuery("/all") ) ) {
 				
-				incidents.add(new Incident(data.getString("primary_key"), data.getString("DateAndTime"), data.getString("City"), data.getString("State"), data.getString("Shape"), data.getString("Duration"), data.getString("Summary"), data.getString("Posted")));
+				incidents.add(new Incident(data.getString("primary_key"), data.getString("dateandtime"), data.getString("city"), data.getString("state"), data.getString("shape"), data.getString("duration"), data.getString("summary"), data.getString("posted")));
 			
 			}
 			
 			//return Utils.keyPairResultToList( connection.sendRESTfulQuery("/all") );
-			
-			/*JSONArray sharkInfo = connection.sendRESTfulQuery("/names/" + name);
-			
-			return new Shark( name, sharkInfo.getJSONObject(0).get("species") + "", sharkInfo.getJSONObject(0).get("stageOfLife") + "", sharkInfo.getJSONObject(0).get("gender") + "", sharkInfo.getJSONObject(0).get("length") + "", sharkInfo.getJSONObject(0).get("weight") + "", sharkInfo.getJSONObject(0).get("tagLocation") + "", sharkInfo.getJSONObject(0).get("description").toString().replaceAll("\\P{Print}", ""));*/
 			
 			return incidents;
 		
@@ -49,13 +45,17 @@ public class Ripley {
 	
 	public ArrayList<Incident> getIncidentsInRange(String start, String end) {
 		
+		// Create date objects to check for format
+		
+		// Use to check maximum 50 year gap
+		
 		try {
 			
 			ArrayList<Incident> incidents = new ArrayList<Incident>();
 			
 			for ( JSONObject data : Utils.arrayToObjectList( connection.sendRESTfulQuery("/range/" + start + "/" + end) ) ) {
 				
-				incidents.add(new Incident(data.getString("primary_key"), data.getString("DateAndTime"), data.getString("City"), data.getString("State"), data.getString("Shape"), data.getString("Duration"), data.getString("Summary"), data.getString("Posted")));
+				incidents.add(new Incident(data.getString("primary_key"), data.getString("dateandtime"), data.getString("city"), data.getString("state"), data.getString("shape"), data.getString("duration"), data.getString("summary"), data.getString("posted")));
 			
 			}
 			
@@ -77,7 +77,7 @@ public class Ripley {
 		
 			JSONArray incidentDetails = connection.sendRESTfulQuery("/individual/" + id);
 		
-			return incidentDetails.getJSONObject(0).get("Description").toString();
+			return incidentDetails.getJSONObject(0).get("description").toString();
 		
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 		
@@ -89,9 +89,29 @@ public class Ripley {
 		
 	}
 	
+	// Do map of states to full names
+	
 	public int getStartYear() {
 		
 		return 1400;
+		
+	}
+	
+	public String getLastUpdated() {
+			
+		try {
+				
+			JSONArray videoInfo = connection.sendRESTfulQuery("/updated");
+			
+			return videoInfo.getJSONObject(0).get("grabbed") + "";
+		
+		} catch (KeyManagementException | NoSuchAlgorithmException e) {
+					
+			System.out.println("API Error: Line 295");
+			
+			return null;
+			
+		}
 		
 	}
 	
