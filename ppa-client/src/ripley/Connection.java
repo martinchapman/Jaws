@@ -5,38 +5,38 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLSocketFactory;
 
 import org.json.JSONArray;
 
-
+/**
+ * Decompiling my JAR file. Terrible.
+ * 
+ * 
+ * 
+ * @author Martin
+ *
+ */
 public final class Connection {
 	
+	//private static final String URL = "apps.nms.kcl.ac.uk/4CCS1PPA";
 	private static final String URL = "localhost:8080";
 	
 	private String privateKey;
 	
 	private String publicKey;
 	
-	private boolean useSSL;
-	
-	protected Connection( String privateKey, String publicKey, boolean useSSL ) {
+	protected Connection( String privateKey, String publicKey ) {
 		
 		this.privateKey = privateKey;
 		
 		this.publicKey = publicKey;
-		
-		this.useSSL = useSSL;
 	
 	}
 	
@@ -46,77 +46,40 @@ public final class Connection {
 		
 		try {
 			
-			URL url;
-			
-			if ( useSSL ) {
-				
-				url = new URL("https://" + URL + query);
-			
-			} else {
-				
-				url = new URL("http://" + URL + query);
-			
-			}
-			
-	        TrustManager[] trustAllCerts = new TrustManager[] { 
-	        		
-	        	new X509TrustManager() {
-	        
-		        	public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-		            
-		        		return null;
-		            
-		        	}
-		            
-		        	public void checkClientTrusted(X509Certificate[] certs, String authType) { }
-		            
-		        	public void checkServerTrusted(X509Certificate[] certs, String authType) { }
-	        	
-	            }
-	        };
-	 
-	        SSLContext sc = SSLContext.getInstance("SSL");
-	        
-	        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-	        
-	        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-	 
-	        HostnameVerifier allHostsValid = new HostnameVerifier() {
-	        	
-	            public boolean verify(String hostname, SSLSession session) {
-	            
-	            	return true;
-	            
-	            }
-	        };
-	        
-	        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-			
-	        // Hash the query using private key as authentication
 	        String queryHash = Utils.hmacSha1(query, privateKey);
 	        
-	        HttpURLConnection con = (HttpURLConnection) url.openConnection();           
-	        
+	        // Query also passed in post purely for validation.
 	        String rawData = "public_key=" + publicKey + "&query_hash=" + queryHash + "&query=" + query;
 	        
 	        byte[] postData = rawData.getBytes( StandardCharsets.UTF_8 );
 	        
 	        int postDataLength = postData.length;
 	        
-	        con.setDoOutput( true );
+	        HttpURLConnection con;
 	        
-	        con.setInstanceFollowRedirects( false );
+	        if ( URL.contains("localhost") ) {
+	        	
+				// Appending query helps identify route on server.
+				URL url = new URL("http://" + URL + query);
+				
+				con = (HttpURLConnection)url.openConnection();
+				
+	        } else {
+	        	
+				URL url = new URL("https://" + URL + query);
+				
+			    SSLSocketFactory sslFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+	
+			    con = (HttpsURLConnection)url.openConnection();
+			    
+			    ((HttpsURLConnection)con).setSSLSocketFactory(sslFactory);
+			    
+	        }
 	        
-	        con.setRequestMethod( "POST" );
+	        con.setRequestMethod("POST");
 	        
-	        con.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 
-	        
-	        con.setRequestProperty( "charset", "utf-8");
-	        
-	        con.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-	        
-	        con.setUseCaches( false );
-	        
+	        con.setDoOutput(true);
+		    
 	        try ( DataOutputStream wr = new DataOutputStream( con.getOutputStream()) ) {
 	        
 	        	wr.write( postData );
@@ -128,8 +91,6 @@ public final class Connection {
 	        	System.err.println("API Response Error Code: " + ((HttpURLConnection) con).getResponseCode());
 	        
 	        }
-	        
-	        //System.out.println(Utils.convertStreamToString(con.getInputStream()));
 	        
 		    return Utils.processJSONInputStream( con.getInputStream() );
 		    

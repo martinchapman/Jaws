@@ -84,7 +84,7 @@ public final class Utils {
 			
 			if ( jsonText.contains("Authentication failed") ) {
 				
-				System.err.println("Authentication Failed.");
+				System.err.println("Authentication failed.");
 				
 				return new JSONArray();
 			
