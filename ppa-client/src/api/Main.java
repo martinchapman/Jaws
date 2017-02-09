@@ -12,7 +12,13 @@ public class Main {
 	
 		Ripley ripley = new Ripley("90tMKXOTsNiyVD6ql2OMtA==", "lBgh6Jdt9AjVqL46EnH7ew==" );
 		
-		System.out.println(ripley.getIncidentDetails("132S132079tmoce0ic54ivmnvn7ugghsi2mm"));
+		for ( Incident incident : ripley.getIncidentsInRange("2017-01-00 00:00", "2017-03-00 00:00") ) {
+			
+			System.out.println(incident.getState() + " " + incident.getIncidentID());
+			ripley.getIncidentDetails(incident.getIncidentID());
+			
+			
+		}
 
 	}
 	

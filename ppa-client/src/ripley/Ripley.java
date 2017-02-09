@@ -17,37 +17,7 @@ public class Ripley {
 		
 	}
 	
-	public ArrayList<Incident> getAllIncidents() {
-		
-		try {
-			
-			ArrayList<Incident> incidents = new ArrayList<Incident>();
-			
-			for ( JSONObject data : Utils.arrayToObjectList( connection.sendRESTfulQuery("/all") ) ) {
-				
-				incidents.add(new Incident(data.getString("primary_key"), data.getString("dateandtime"), data.getString("city"), data.getString("state"), data.getString("shape"), data.getString("duration"), data.getString("summary"), data.getString("posted")));
-			
-			}
-			
-			//return Utils.keyPairResultToList( connection.sendRESTfulQuery("/all") );
-			
-			return incidents;
-		
-		} catch (KeyManagementException | NoSuchAlgorithmException e) {
-			
-			System.out.println("API Error: Line 79");
-			
-			return null;
-			
-		}
-	
-	}
-	
 	public ArrayList<Incident> getIncidentsInRange(String start, String end) {
-		
-		// Create date objects to check for format
-		
-		// Use to check maximum 50 year gap
 		
 		try {
 			
@@ -76,8 +46,16 @@ public class Ripley {
 		try {
 		
 			JSONArray incidentDetails = connection.sendRESTfulQuery("/individual/" + id);
-		
-			return incidentDetails.getJSONObject(0).get("description").toString();
+			
+			if ( incidentDetails.length() > 0 ) {
+				
+				return incidentDetails.getJSONObject(0).get("description").toString();
+			
+			} else {
+				
+				return "No details available";
+				
+			}
 		
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 		
@@ -89,7 +67,7 @@ public class Ripley {
 		
 	}
 	
-	// Do map of states to full names
+	// Do map of states to full names as bonus in source.
 	
 	public int getStartYear() {
 		
@@ -97,13 +75,19 @@ public class Ripley {
 		
 	}
 	
+	public int getLatestYear() {
+		
+		return 2017;
+		
+	}
+	
 	public String getLastUpdated() {
 			
 		try {
 				
-			JSONArray videoInfo = connection.sendRESTfulQuery("/updated");
+			JSONArray lastUpdated = connection.sendRESTfulQuery("/updated");
 			
-			return videoInfo.getJSONObject(0).get("grabbed") + "";
+			return lastUpdated.getJSONObject(0).get("grabbed") + "";
 		
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 					

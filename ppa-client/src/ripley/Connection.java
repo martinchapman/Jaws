@@ -18,15 +18,17 @@ import org.json.JSONArray;
 /**
  * Decompiling my JAR file. Terrible.
  * 
+ * I'm actually impressed.
  * 
+ * I've left a treat for you somewhere in this source...
  * 
  * @author Martin
  *
  */
 public final class Connection {
 	
-	//private static final String URL = "apps.nms.kcl.ac.uk/4CCS1PPA";
-	private static final String URL = "localhost:8080";
+	private static final String URL = "apps.nms.kcl.ac.uk/4CCS1PPA";
+	//private static final String URL = "localhost:8080";
 	
 	private String privateKey;
 	
