@@ -1,11 +1,10 @@
-package ripley;
+package api.ripley;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -16,19 +15,18 @@ import javax.net.ssl.SSLSocketFactory;
 import org.json.JSONArray;
 
 /**
- * Decompiling my JAR file. Terrible.
- * 
- * I'm actually impressed.
- * 
- * I've left a treat for you somewhere in this source...
- * 
  * @author Martin
  *
  */
 public final class Connection {
 	
+	private String a = "Decompiling my JAR file. Terrible.";
+
+	private String b = "I'm actually impressed.";
+
+	private String c = "I've left a treat for you somewhere in this source...";
+
 	private static final String URL = "apps.nms.kcl.ac.uk/4CCS1PPA";
-	//private static final String URL = "localhost:8080";
 	
 	private String privateKey;
 	

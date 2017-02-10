@@ -1,4 +1,4 @@
-package ripley;
+package api.ripley;
 
 import java.io.BufferedReader;
 import java.io.IOException;
