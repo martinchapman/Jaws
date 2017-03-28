@@ -33,6 +33,7 @@ public class Ripley {
 	 */
 	public Ripley( String privateKey, String publicKey ) {
 		
+		System.err.println("You are using a temporary version of the Ripley library, please switch back to the production version (in your repo), prior to submission");
 		connection = new Connection( privateKey, publicKey );
 		
 	}
@@ -129,7 +130,7 @@ public class Ripley {
 	 */
 	public double getVersion() {
 		
-		return 1.0;
+		return -1.0;
 		
 	}
 	

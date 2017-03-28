@@ -26,7 +26,7 @@ public final class Connection {
 
 	private String c = "I've left a treat for you somewhere in this source...";
 
-	private static final String URL = "apps.nms.kcl.ac.uk/4CCS1PPA";
+	private static final String URL = "px205.dcs.kcl.ac.uk";
 	
 	private String privateKey;
 	
@@ -60,19 +60,19 @@ public final class Connection {
 	        if ( URL.contains("localhost") ) {
 	        	
 				// Appending query helps identify route on server.
-				URL url = new URL("http://" + URL + query);
+				URL url = new URL("http://" + URL + ":8080" + query);
 				
 				con = (HttpURLConnection)url.openConnection();
 				
 	        } else {
 	        	
-				URL url = new URL("https://" + URL + query);
+				URL url = new URL("http://" + URL + ":8080" + query);
 				
 			    SSLSocketFactory sslFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 	
-			    con = (HttpsURLConnection)url.openConnection();
+			    con = (HttpURLConnection)url.openConnection();
 			    
-			    ((HttpsURLConnection)con).setSSLSocketFactory(sslFactory);
+			   // ((HttpURLConnection)con).setSSLSocketFactory(sslFactory);
 			    
 	        }
 	        
